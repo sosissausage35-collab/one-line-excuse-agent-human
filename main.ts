@@ -43,16 +43,19 @@ const candidates: Candidate[] = [
 ];
 
 // Judge order: funny first, then fresh, then agent voice, then tight.
-function score(c: Candidate): number {
-  return c.funny * 1000 + c.fresh * 100 + c.agentVoice * 10 + c.tight;
+// The judge decides on the first criterion where two lines differ — a
+// stronger joke is never outscored by a weaker one no matter how many
+// secondary points it wins, so compare criterion by criterion instead
+// of adding weighted points together.
+function compare(a: Candidate, b: Candidate): number {
+  for (const key of ["funny", "fresh", "agentVoice", "tight"] as const) {
+    if (a[key] !== b[key]) return b[key] - a[key];
+  }
+  return 0;
 }
 
 function choose(): string {
-  let best = candidates[0];
-  for (const c of candidates.slice(1)) {
-    if (score(c) > score(best)) best = c;
-  }
-  return best.line;
+  return [...candidates].sort(compare)[0].line;
 }
 
 const line = choose();
