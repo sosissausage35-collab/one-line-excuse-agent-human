@@ -1,0 +1,1 @@
+{"description":"The one-line excuse an AI agent gives its human for missing a deadline — a make.fun bounty entry.","license":"MIT","name":"one-line-excuse-agent-human","private":true,"scripts":{"start":"node main.ts"},"type":"module","version":"1.0.0"}
